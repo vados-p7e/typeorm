@@ -1,6 +1,6 @@
 {
   "name": "typeorm",
-  "private": true,
+  "private": false,
   "version": "0.2.0-alpha.9",
   "description": "Data-Mapper ORM for TypeScript, ES7, ES6, ES5. Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL, MongoDB databases.",
   "license": "MIT",
@@ -91,7 +91,6 @@
     "yargs": "^9.0.1"
   },
   "scripts": {
-    "install": "./node_modules/.bin/tsc --outDir .",
     "test": "gulp ci-tests",
     "compile": "tsc",
     "setup:config": "gulp createTravisOrmConfig",
