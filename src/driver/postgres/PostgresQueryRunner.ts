@@ -200,6 +200,12 @@ export class PostgresQueryRunner implements QueryRunner {
         if (this.isReleased)
             throw new QueryRunnerAlreadyReleasedError();
 
+        // SALOMEE PATCH var match = /INNER JOIN "([^"]+)" "([^"]+)"/.exec(query);                                                                                                                                                             
+        var match = /INNER JOIN "([^"]+)" "([^"]+)"/.exec(query);
+        if (match && query.includes(match[2] + '.')) {
+          query = query.replace(RegExp(match[2] + '\\.', "g"), '"' + match[2] + '".');
+        }
+                       
         // console.log("query: ", query);
         // console.log("parameters: ", parameters);
         return new Promise<any[]>(async (ok, fail) => {
