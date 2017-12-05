@@ -201,9 +201,9 @@ export class PostgresQueryRunner implements QueryRunner {
             throw new QueryRunnerAlreadyReleasedError();
 
         // SALOMEE PATCH var match = /INNER JOIN "([^"]+)" "([^"]+)"/.exec(query);                                                                                                                                                             
-        var match = /INNER JOIN "([^"]+)" "([^"]+)"/.exec(query);
-        if (match && query.includes(match[2] + '.')) {
-          query = query.replace(RegExp(match[2] + '\\.', "g"), '"' + match[2] + '".');
+        const match = /INNER JOIN "([^"]+)" "([^"]+)"/.exec(query);
+        if (match && query.includes(match[2] + ".")) {
+          query = query.replace(RegExp(match[2] + "\\.", "g"), "\"" + match[2] + "\".");
         }
                        
         // console.log("query: ", query);

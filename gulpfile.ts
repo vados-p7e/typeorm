@@ -382,7 +382,6 @@ export class Gulpfile {
     @SequenceTask("ci-tests")
     ciTests() {
         return [
-            "wait",
             "compile",
             "tslint",
             "coveragePost",
