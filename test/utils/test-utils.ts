@@ -136,20 +136,27 @@ export function setupSingleTestingConnection(driverType: DatabaseType, options: 
  * Loads test connection options from ormconfig.json file.
  */
 export function getTypeOrmConfig(): TestingConnectionOptions[] {
-    try {
-
-        try {
-            return require(__dirname + "/../../../../ormconfig.json");
-
-        } catch (err) {
-            return require(__dirname + "/../../ormconfig.json");
+    let paths = ["/../../../../ormconfig.json", "/../../ormconfig.json"].map(p => __dirname + p);    
+    
+    // Attempt to find and load one of the ormconfig.json files
+    let loadedConfig: any;
+    const foundAndLoaded = paths.find(p => {
+        try { 
+            loadedConfig = require(path);             
+            return true;
+        } catch (err) { 
+            if (err instanceof SyntaxError) { throw err; }
+            return false;
         }
-
-    } catch (err) {
+    });
+    
+    if (!foundAndLoaded) {
         throw new Error(`Cannot find ormconfig.json file in the root of the project. To run tests please create ormconfig.json file` +
             ` in the root of the project (near ormconfig.json.dist, you need to copy ormconfig.json.dist into ormconfig.json` +
             ` and change all database settings to match your local environment settings).`);
     }
+    
+    return loadedConfig;
 }
 
 /**
